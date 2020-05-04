@@ -1,0 +1,5 @@
+Merci beaucoup pour ces ctf, il étaient super intéressants et j'ai énormément appris au cours de cette semaine qui a été très intense (je suis débutant en forensics et reverse, c'était l'occasion d'apprendre !).
+
+Voici quelques writeups de challenges que j'ai réussis cette semaine. Il n'y a pas tout, mais il y en a une bonne partie. Dites-moi si vous souhaitez avoir des compléments divers.
+
+PS : Malheuresement je n'ai pas réussi à flag Sandbox à temps... J'ai obtenu un shell (mais avec l'accès `ctf`), désassemblé le `spython`, essayé d'accéder à flag_python.so depuis les `ctypes`, de désactiver l'audit hook (mais c'est impossible à moins de réécrire dans la mémoire avec les fonctions de `ctypes` il me semble...), lancé spython avec des options différentes (parmi -I, -S, -B) pour obtenir plus de droits... Rien n'y fait, je n'ai pas trouvé à temps après avoir passé mon dimanche dessus. Bravo au concepteur de l'épreuve :P
