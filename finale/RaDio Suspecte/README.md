@@ -71,7 +71,7 @@ Maintenant que l'on sait démoduler, et que l'on a confirmation qu'un signal RDS
 Et ce n'est pas simple, car une fois obtenues les blocs binaires bruts, il faut en extraire l'information. Heureusement pour nous, il existe un module GNU Radio qui se charge exactement de ça : `gr-rds` (j'ai pu l'installer directement avec apt).
 Sur le github de gr-rds se trouvent même des graphes GNU Radio d'exemple.
 J'ai utilisé le graphe `rds_rx.grc` qui j'ai légèrement modifié (source, échantillonage, translation des fréquences).
-Je l'ai mis en pj dans ce repo (`rs_decode.grc`).
+Je l'ai mis en pj dans ce repo (`rds_decode.grc`).
 
 Chaque station captée émet un tiers du flag dans le canal "fréquences alternatives".
 Voici pour le premier morceau :
