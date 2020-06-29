@@ -43,7 +43,7 @@ import math
 import rds
 from gnuradio import qtgui
 
-class rds_rx(gr.top_block, Qt.QWidget):
+class rds_decode(gr.top_block, Qt.QWidget):
 
     def __init__(self):
         gr.top_block.__init__(self, "Stereo FM receiver and RDS Decoder")
@@ -66,7 +66,7 @@ class rds_rx(gr.top_block, Qt.QWidget):
         self.top_grid_layout = Qt.QGridLayout()
         self.top_layout.addLayout(self.top_grid_layout)
 
-        self.settings = Qt.QSettings("GNU Radio", "rds_rx")
+        self.settings = Qt.QSettings("GNU Radio", "rds_decode")
 
         try:
             if StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
@@ -483,7 +483,7 @@ class rds_rx(gr.top_block, Qt.QWidget):
         self.blocks_multiply_const_vxx_0_0 = blocks.multiply_const_ff(10**(1.*(volume)/10))
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_ff(10**(1.*(volume)/10))
         self.blocks_keep_one_in_n_0 = blocks.keep_one_in_n(gr.sizeof_char*1, 2)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/simon/Documents/FCSC/RaDio Suspecte/capture.iq', True, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/simon/Documents/FCSC/writeups-FCSC-2020/finale/RaDio Suspecte/capture.iq', True, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.blocks_complex_to_real_0 = blocks.complex_to_real(1)
         self.blocks_add_xx_0 = blocks.add_vff(1)
@@ -536,7 +536,7 @@ class rds_rx(gr.top_block, Qt.QWidget):
         self.connect((self.root_raised_cosine_filter_0, 0), (self.qtgui_const_sink_x_0, 0))
 
     def closeEvent(self, event):
-        self.settings = Qt.QSettings("GNU Radio", "rds_rx")
+        self.settings = Qt.QSettings("GNU Radio", "rds_decode")
         self.settings.setValue("geometry", self.saveGeometry())
         event.accept()
 
@@ -586,7 +586,7 @@ class rds_rx(gr.top_block, Qt.QWidget):
 
 
 
-def main(top_block_cls=rds_rx, options=None):
+def main(top_block_cls=rds_decode, options=None):
 
     if StrictVersion("4.5.0") <= StrictVersion(Qt.qVersion()) < StrictVersion("5.0.0"):
         style = gr.prefs().get_string('qtgui', 'style', 'raster')

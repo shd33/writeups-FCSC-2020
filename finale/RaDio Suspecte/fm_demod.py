@@ -176,7 +176,7 @@ class fm_demod(gr.top_block, Qt.QWidget):
                 firdes.WIN_HAMMING,
                 6.76))
         self.blocks_throttle_0 = blocks.throttle(gr.sizeof_gr_complex*1, samp_rate,True)
-        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/simon/Documents/FCSC/RaDio Suspecte/capture.iq', False, 0, 0)
+        self.blocks_file_source_0 = blocks.file_source(gr.sizeof_gr_complex*1, '/home/simon/Documents/FCSC/writeups-FCSC-2020/finale/RaDio Suspecte/capture.iq', False, 0, 0)
         self.blocks_file_source_0.set_begin_tag(pmt.PMT_NIL)
         self.audio_sink_0 = audio.sink(24000, '', True)
         self.analog_wfm_rcv_0 = analog.wfm_rcv(
