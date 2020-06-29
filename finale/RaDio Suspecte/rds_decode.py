@@ -83,7 +83,6 @@ class rds_decode(gr.top_block, Qt.QWidget):
         self.freq = freq = 89600000
         self.volume = volume = -3
         self.samp_rate = samp_rate = 2000000
-        self.gain = gain = 35
         self.freq_offset = freq_offset = freq-freq_tune
 
         ##################################################
@@ -129,6 +128,31 @@ class rds_decode(gr.top_block, Qt.QWidget):
         self.tabs_layout_6.addLayout(self.tabs_grid_layout_6)
         self.tabs.addTab(self.tabs_widget_6, 'Const')
         self.top_grid_layout.addWidget(self.tabs)
+        # Create the options list
+        self._freq_options = (89600000, 89800000, 90000000, )
+        # Create the labels list
+        self._freq_labels = ('89.6MHz', '89.8MHz', '90.0MHz', )
+        # Create the combo box
+        # Create the radio buttons
+        self._freq_group_box = Qt.QGroupBox('freq' + ": ")
+        self._freq_box = Qt.QVBoxLayout()
+        class variable_chooser_button_group(Qt.QButtonGroup):
+            def __init__(self, parent=None):
+                Qt.QButtonGroup.__init__(self, parent)
+            @pyqtSlot(int)
+            def updateButtonChecked(self, button_id):
+                self.button(button_id).setChecked(True)
+        self._freq_button_group = variable_chooser_button_group()
+        self._freq_group_box.setLayout(self._freq_box)
+        for i, _label in enumerate(self._freq_labels):
+            radio_button = Qt.QRadioButton(_label)
+            self._freq_box.addWidget(radio_button)
+            self._freq_button_group.addButton(radio_button, i)
+        self._freq_callback = lambda i: Qt.QMetaObject.invokeMethod(self._freq_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._freq_options.index(i)))
+        self._freq_callback(self.freq)
+        self._freq_button_group.buttonClicked[int].connect(
+            lambda i: self.set_freq(self._freq_options[i]))
+        self.top_grid_layout.addWidget(self._freq_group_box)
         self.root_raised_cosine_filter_0 = filter.fir_filter_ccf(
             2,
             firdes.root_raised_cosine(
@@ -322,7 +346,7 @@ class rds_decode(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_1.enable_control_panel(False)
 
 
-        self.qtgui_freq_sink_x_1.set_plot_pos_half(not True)
+        self.qtgui_freq_sink_x_1.set_plot_pos_half(not False)
 
         labels = ['', '', '', '', '',
             '', '', '', '', '']
@@ -347,7 +371,7 @@ class rds_decode(gr.top_block, Qt.QWidget):
         self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
             1024, #size
             firdes.WIN_BLACKMAN_hARRIS, #wintype
-            0, #fc
+            freq, #fc
             samp_rate, #bw
             "", #name
             1
@@ -434,37 +458,9 @@ class rds_decode(gr.top_block, Qt.QWidget):
             taps=None,
             flt_size=32)
         self.pfb_arb_resampler_xxx_0.declare_sample_delay(0)
-        self._gain_range = Range(0, 50, 1, 35, 200)
-        self._gain_win = RangeWidget(self._gain_range, self.set_gain, 'gain', "counter_slider", float)
-        self.top_grid_layout.addWidget(self._gain_win)
         self.freq_xlating_fir_filter_xxx_2 = filter.freq_xlating_fir_filter_fcf(5, firdes.low_pass(1.0,240000,13e3,3e3,firdes.WIN_HAMMING), 38000, 240000)
         self.freq_xlating_fir_filter_xxx_1 = filter.freq_xlating_fir_filter_fcc(1, firdes.low_pass(2500.0,250000,2.6e3,2e3,firdes.WIN_HAMMING), 57e3, 250000)
         self.freq_xlating_fir_filter_xxx_0 = filter.freq_xlating_fir_filter_ccc(1, firdes.low_pass(1, samp_rate, 80000, 20000), freq_offset, samp_rate)
-        # Create the options list
-        self._freq_options = (89600000, 89800000, 90000000, )
-        # Create the labels list
-        self._freq_labels = ('89.6MHz', '89.8MHz', '90.0MHz', )
-        # Create the combo box
-        # Create the radio buttons
-        self._freq_group_box = Qt.QGroupBox('freq' + ": ")
-        self._freq_box = Qt.QVBoxLayout()
-        class variable_chooser_button_group(Qt.QButtonGroup):
-            def __init__(self, parent=None):
-                Qt.QButtonGroup.__init__(self, parent)
-            @pyqtSlot(int)
-            def updateButtonChecked(self, button_id):
-                self.button(button_id).setChecked(True)
-        self._freq_button_group = variable_chooser_button_group()
-        self._freq_group_box.setLayout(self._freq_box)
-        for i, _label in enumerate(self._freq_labels):
-            radio_button = Qt.QRadioButton(_label)
-            self._freq_box.addWidget(radio_button)
-            self._freq_button_group.addButton(radio_button, i)
-        self._freq_callback = lambda i: Qt.QMetaObject.invokeMethod(self._freq_button_group, "updateButtonChecked", Qt.Q_ARG("int", self._freq_options.index(i)))
-        self._freq_callback(self.freq)
-        self._freq_button_group.buttonClicked[int].connect(
-            lambda i: self.set_freq(self._freq_options[i]))
-        self.top_grid_layout.addWidget(self._freq_group_box)
         self.fir_filter_xxx_1 = filter.fir_filter_fff(5, firdes.low_pass(1.0,240000,13e3,3e3,firdes.WIN_HAMMING))
         self.fir_filter_xxx_1.declare_sample_delay(0)
         self.digital_psk_demod_0 = digital.psk.psk_demod(
@@ -492,8 +488,8 @@ class rds_decode(gr.top_block, Qt.QWidget):
         	quad_rate=samp_rate,
         	audio_decimation=8,
         )
-        self.analog_fm_deemph_0_0_0 = analog.fm_deemph(fs=48000, tau=75e-6)
-        self.analog_fm_deemph_0_0 = analog.fm_deemph(fs=48000, tau=75e-6)
+        self.analog_fm_deemph_0_0_0 = analog.fm_deemph(fs=48000, tau=50e-6)
+        self.analog_fm_deemph_0_0 = analog.fm_deemph(fs=48000, tau=50e-6)
 
 
 
@@ -554,6 +550,7 @@ class rds_decode(gr.top_block, Qt.QWidget):
         self.freq = freq
         self._freq_callback(self.freq)
         self.set_freq_offset(self.freq-self.freq_tune)
+        self.qtgui_freq_sink_x_0.set_frequency_range(self.freq, self.samp_rate)
 
     def get_volume(self):
         return self.volume
@@ -569,13 +566,7 @@ class rds_decode(gr.top_block, Qt.QWidget):
     def set_samp_rate(self, samp_rate):
         self.samp_rate = samp_rate
         self.freq_xlating_fir_filter_xxx_0.set_taps(firdes.low_pass(1, self.samp_rate, 80000, 20000))
-        self.qtgui_freq_sink_x_0.set_frequency_range(0, self.samp_rate)
-
-    def get_gain(self):
-        return self.gain
-
-    def set_gain(self, gain):
-        self.gain = gain
+        self.qtgui_freq_sink_x_0.set_frequency_range(self.freq, self.samp_rate)
 
     def get_freq_offset(self):
         return self.freq_offset
