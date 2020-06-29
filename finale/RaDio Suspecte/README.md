@@ -51,7 +51,7 @@ Pour récupérer les informations transmises par RDS, il faut alors filtrer, dé
 Revenons à notre signal
 -----------------------
 
-La fréquence 89.8MHz de l'énoncé correspond à la porteuse du signal radio mesuré. Pour ce qui se demanderaient comment ça se fait que la fréquence d'échantillonage soit largement inférieure à la fréquence du signal mesuré, voir le début de ce [writeup](https://github.com/tchup-dev/FCSC-2020/blob/master/ble.md) de BLE qui parle d'hétérodynage et de format IQ.  
+La fréquence 89.8MHz de l'énoncé correspond à la porteuse du signal radio mesuré. Pour ceux qui se demanderaient comment ça se fait que la fréquence d'échantillonage soit largement inférieure à la fréquence du signal mesuré, voir le début de ce [writeup](https://github.com/tchup-dev/FCSC-2020/blob/master/ble.md) de BLE qui parle d'hétérodynage et de format IQ.  
 Ce qu'il faut retenir : on a un spectre translaté où la fréquence captée 89.8MHz est centrée en 0.
 
 Il faut donc commencer par appliquer un filtre pour ne garder que la bande de fréquences qui nous intéresse (-100kHz à +100kHz en radio FM), et on peut démoduler.
