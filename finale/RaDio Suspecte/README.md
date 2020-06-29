@@ -2,7 +2,7 @@ Finale FCSC 2020 - RaDio Suspecte (writeup)
 ===========================================
 *(shd33)*
 
-![énoncé](énoncé.png)
+![énoncé](enonce.png)
 
 Avertissement : Je suis un débutant en radio. J'ai des notions de physique et j'ai passé mon lundi aprem à me documenter sur la FM, mais je ne garantis pas le bon usage des termes techniques dans ce writeup...
 
