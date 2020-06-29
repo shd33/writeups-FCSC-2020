@@ -43,7 +43,7 @@ Une fois démodulé, un signal radio FM ressemble à ceci :
 - Puis un signal stéréo (en fait la différence Gauche - Droite, qui permet de calculer G et D à partir de G+D).
 - Et enfin le RDS !!
 
-La forme "double" des signaux stéréo et RDS est due au fait que ceux-ci sont ici déjà modulés (au total, il sont donc modulés 2 fois !). La modulation utilisée est dite [DSB-SC](https://en.wikipedia.org/wiki/Double-sideband_suppressed-carrier_transmission) : en gros c'est ce qui duplique le signal symétriquement par rapport à la sous-porteuse, qui quant à elle est supprimée.
+La forme "double" des signaux stéréo et RDS est due au fait que ceux-ci sont ici encore modulés (au total, il sont donc modulés 2 fois !). La modulation utilisée est dite [DSB-SC](https://en.wikipedia.org/wiki/Double-sideband_suppressed-carrier_transmission) : en gros c'est ce qui duplique le signal symétriquement par rapport à la sous-porteuse, qui quant à elle est supprimée.
 La sous-porteuse stéréo est à 2\*19kHz et celle de la RDS à 3\*19kHz (harmoniques du pilote).
 
 Pour récupérer les informations transmises par RDS, il faut alors filtrer, démoduler à nouveau (en amplitude cette fois) puis analyser le binaire.
@@ -69,7 +69,7 @@ Le RDS, c'est compliqué
 
 Maintenant que l'on sait démoduler, et que l'on a confirmation qu'un signal RDS accompagne bien la station radio captée, il faut extraire le flag.
 Et ce n'est pas simple, car une fois obtenues les blocs binaires bruts, il faut en extraire l'information. Heureusement pour nous, il existe un module GNU Radio qui se charge exactement de ça : `gt-rds` (j'ai pu l'installer directement avec apt).
-Sur le github de gt-rds se trouve même des graphes GNU Radio d'exemple.
+Sur le github de gt-rds se trouvent même des graphes GNU Radio d'exemple.
 J'ai utilisé le graphe `rds_rx.grc` qui j'ai légèrement modifié (source, échantillonage, translation des fréquences).
 Je l'ai mis en pj dans ce repo (`rs_decode.grc`).
 
