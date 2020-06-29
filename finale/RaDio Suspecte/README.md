@@ -39,12 +39,12 @@ Une fois démodulé, un signal radio FM ressemble à ceci :
 ![fm démodulé](fm_schema.png)
 
 - En rouge, le signal mono qui est directement dans les fréquences audibles.
-- Ensuite un signal pilote à 19Hz qui sert à indiquer la présence de la stéréo.
+- Ensuite un signal pilote à 19kHz qui sert à indiquer la présence de la stéréo.
 - Puis un signal stéréo (en fait la différence Gauche - Droite, qui permet de calculer G et D à partir de G+D).
 - Et enfin le RDS !!
 
 La forme "double" des signaux stéréo et RDS est due au fait que ceux-ci sont ici déjà modulés (au total, il sont donc modulés 2 fois !). La modulation utilisée est dite [DSB-SC](https://en.wikipedia.org/wiki/Double-sideband_suppressed-carrier_transmission) : en gros c'est ce qui duplique le signal symétriquement par rapport à la sous-porteuse, qui quant à elle est supprimée.
-La sous-porteuse stéréo est à 2\*19Hz et celle de la RDS à 3\*19Hz (harmoniques du pilote).
+La sous-porteuse stéréo est à 2\*19kHz et celle de la RDS à 3\*19kHz (harmoniques du pilote).
 
 Pour récupérer les informations transmises par RDS, il faut alors filtrer, démoduler à nouveau (en amplitude cette fois) puis analyser le binaire.
 
